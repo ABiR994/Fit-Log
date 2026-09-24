@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: false;
+}
+
+/* FitLog dark theme — replace values with the Figma tokens */
+@plugin "daisyui/theme" {
+  name: "fitlog";
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+  --color-base-100: #0a0a0a;
+  --color-base-200: #141414;
+  --color-base-300: #262626;
+  --color-base-content: #f5f5f5;
+  --color-primary: #ccff00;
+  --color-primary-content: #0a0a0a;
+  --color-secondary: #262626;
+  --color-secondary-content: #f5f5f5;
+  --color-accent: #ccff00;
+  --color-accent-content: #0a0a0a;
+  --color-neutral: #1a1a1a;
+  --color-neutral-content: #f5f5f5;
+  --color-info: #38bdf8;
+  --color-success: #4ade80;
+  --color-warning: #facc15;
+  --color-error: #f87171;
+  --radius-selector: 9999px;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+}
+
+@theme inline {
+  --font-display: "Oswald Variable", "Oswald", Impact, sans-serif;
+  --font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
+  --color-accent-lime: #ccff00;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+  font-family: var(--font-sans);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
