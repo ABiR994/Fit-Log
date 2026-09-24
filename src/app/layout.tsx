@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "FitLog — Workout Library",
@@ -16,9 +17,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-theme="fitlog">
-      <body className="min-h-screen antialiased">
+      <body className="flex min-h-screen flex-col antialiased">
         <Navbar />
-        {children}
+        <main className="flex-1">{children}</main>
+        <Footer />
         <ToastContainer position="top-right" theme="dark" autoClose={2500} />
       </body>
     </html>
