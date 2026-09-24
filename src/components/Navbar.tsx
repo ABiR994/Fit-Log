@@ -15,7 +15,6 @@ interface NavbarProps {
   savedCount?: number;
 }
 
-// Counts default to 0 for now — wire them to your plan state later.
 export default function Navbar({ planCount = 0, savedCount = 0 }: NavbarProps) {
   const pathname = usePathname();
 
@@ -33,7 +32,7 @@ export default function Navbar({ planCount = 0, savedCount = 0 }: NavbarProps) {
           </span>
         </Link>
 
-        {/* Middle: links (own row on mobile, centered on md+) */}
+        {/* Middle: links */}
         <ul className="order-3 col-span-2 flex items-center justify-center gap-2 md:order-none md:col-span-1">
           {NAV_LINKS.map(({ label, href }) => {
             const active = pathname === href;
