@@ -5,6 +5,8 @@ import "@fontsource-variable/inter";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 
+import Navbar from "@/components/Navbar";
+
 export const metadata: Metadata = {
   title: "FitLog — Workout Library",
   description:
@@ -15,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-theme="fitlog">
       <body className="min-h-screen antialiased">
+        <Navbar />
         {children}
         <ToastContainer position="top-right" theme="dark" autoClose={2500} />
       </body>
