@@ -3,10 +3,13 @@
 import Image from "next/image";
 import { FiBookmark, FiPlusCircle, FiStar } from "react-icons/fi";
 import { toast } from "react-toastify";
+import { usePlanStorage } from "@/hooks/usePlanStorage";
+import { PLAN_CAP, STORAGE_KEYS } from "@/lib/constants";
 import type { Workout } from "@/types/workout";
 
 export default function WorkoutDetails({ workout }: { workout: Workout }) {
   const {
+    id,
     name,
     image,
     description,
@@ -21,6 +24,12 @@ export default function WorkoutDetails({ workout }: { workout: Workout }) {
     instructions,
   } = workout;
 
+  const [planIds, setPlanIds] = usePlanStorage(STORAGE_KEYS.plan);
+  const [savedIds, setSavedIds] = usePlanStorage(STORAGE_KEYS.saved);
+
+  const inPlan = planIds.includes(id);
+  const inSaved = savedIds.includes(id);
+
   const specs: [string, string | number][] = [
     ["Equipment", equipment],
     ["Difficulty", difficulty],
@@ -31,9 +40,18 @@ export default function WorkoutDetails({ workout }: { workout: Workout }) {
     ["Rating", rating],
   ];
 
-  // TODO: wire to shared plan/saved state (e.g. context + localStorage) once that's built.
-  const handleAddToPlan = () => toast.success("Added to today's plan");
-  const handleSaveForLater = () => toast.info("Saved for later");
+  const handleAddToPlan = () => {
+    if (inPlan) return toast.info("Already in today's plan");
+    if (planIds.length >= PLAN_CAP) return toast.warn(`Today's plan is full (max ${PLAN_CAP})`);
+    setPlanIds([...planIds, id]);
+    toast.success("Added to today's plan");
+  };
+
+  const handleSaveForLater = () => {
+    if (inSaved) return toast.info("Already saved");
+    setSavedIds([...savedIds, id]);
+    toast.success("Saved for later");
+  };
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 md:px-6">
@@ -103,18 +121,20 @@ export default function WorkoutDetails({ workout }: { workout: Workout }) {
             <button
               type="button"
               onClick={handleAddToPlan}
-              className="btn btn-primary h-10 min-h-0 gap-2 rounded-md border-0 px-5 text-xs font-bold uppercase tracking-wide shadow-none"
+              disabled={inPlan}
+              className="btn btn-primary h-10 min-h-0 gap-2 rounded-md border-0 px-5 text-xs font-bold uppercase tracking-wide shadow-none disabled:bg-base-300 disabled:text-base-content/40"
             >
               <FiPlusCircle className="size-4" aria-hidden />
-              Add to today&apos;s plan
+              {inPlan ? "In today's plan" : "Add to today's plan"}
             </button>
             <button
               type="button"
               onClick={handleSaveForLater}
-              className="btn btn-outline h-10 min-h-0 gap-2 rounded-md border-base-300 px-5 text-xs font-bold uppercase tracking-wide text-base-content hover:border-base-content hover:bg-transparent"
+              disabled={inSaved}
+              className="btn btn-outline h-10 min-h-0 gap-2 rounded-md border-base-300 px-5 text-xs font-bold uppercase tracking-wide text-base-content hover:border-base-content hover:bg-transparent disabled:border-base-300 disabled:text-base-content/40"
             >
               <FiBookmark className="size-4" aria-hidden />
-              Save for later
+              {inSaved ? "Saved" : "Save for later"}
             </button>
           </div>
         </div>
