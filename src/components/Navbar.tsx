@@ -4,19 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logo from "@/assets/logo.png";
+import { usePlanStorage } from "@/hooks/usePlanStorage";
+import { STORAGE_KEYS } from "@/lib/constants";
 
 const NAV_LINKS = [
   { label: "Workouts", href: "/" },
   { label: "My Plan", href: "/my-plan" },
 ];
 
-interface NavbarProps {
-  planCount?: number;
-  savedCount?: number;
-}
-
-export default function Navbar({ planCount = 0, savedCount = 0 }: NavbarProps) {
+export default function Navbar() {
   const pathname = usePathname();
+  const [planIds] = usePlanStorage(STORAGE_KEYS.plan);
+  const [savedIds] = usePlanStorage(STORAGE_KEYS.saved);
 
   return (
     <header className="sticky top-0 z-40 border-b border-base-300 bg-base-100/95 backdrop-blur">
@@ -59,22 +58,22 @@ export default function Navbar({ planCount = 0, savedCount = 0 }: NavbarProps) {
           <Link
             href="/my-plan"
             className="flex items-center gap-2 text-base-content/90 hover:text-base-content"
-            aria-label={`Plan: ${planCount} exercises`}
+            aria-label={`Plan: ${planIds.length} exercises`}
           >
             Plan
             <span className="grid size-5 place-items-center rounded-full bg-primary text-xs font-bold text-primary-content">
-              {planCount}
+              {planIds.length}
             </span>
           </Link>
 
           <Link
             href="/my-plan"
             className="flex items-center gap-2 text-base-content/70 hover:text-base-content"
-            aria-label={`Saved: ${savedCount} exercises`}
+            aria-label={`Saved: ${savedIds.length} exercises`}
           >
             Saved
             <span className="grid size-5 place-items-center rounded-full border border-base-content/40 text-xs font-medium text-base-content">
-              {savedCount}
+              {savedIds.length}
             </span>
           </Link>
         </div>
