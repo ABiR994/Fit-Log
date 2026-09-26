@@ -41,6 +41,9 @@ export default function MyPlanView({ workouts }: { workouts: Workout[] }) {
 
   const removeFromPlan = (workout: Workout) => {
     setPlanIds(planIds.filter((x) => x !== workout.id));
+    if (doneIds.includes(workout.id)) {
+      setDoneIds(doneIds.filter((x) => x !== workout.id));
+    }
     toast.info(`Removed "${workout.name}" from today's plan`);
   };
   const removeFromSaved = (workout: Workout) => {
