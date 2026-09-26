@@ -93,7 +93,7 @@ desktop, alongside a matching loading state and a themed 404 page for any unknow
 | 🌼 DaisyUI | Themed buttons, tabs, and the loading spinner |
 | 🔔 React-Toastify | Toast notifications for every plan/saved action |
 | 🖼️ React Icons | Stat, action, and navigation icons |
-| 🌐 FitLog API | Live workout data (`api.abcz.workers.dev`) |
+| 🌐 FitLog API | Live workout data (`api.api-store.workers.dev`) |
 
 ---
 
@@ -103,12 +103,12 @@ desktop, alongside a matching loading state and a themed 404 page for any unknow
 fit-log/
 ├── src/
 │   ├── app/
-│   │   ├── page.tsx                 # Home: Hero + Library
-│   │   ├── loading.tsx              # Home page loading state
-│   │   ├── not-found.tsx            # 404 page
-│   │   ├── layout.tsx               # Root layout: Navbar, Footer, ToastContainer
-│   │   ├── my-plan/page.tsx         # My Plan page
-│   │   └── workouts/[id]/page.tsx   # Workout details page
+│   │   ├── page.tsx                  # Home: Hero + Library
+│   │   ├── loading.tsx               # Home page loading state
+│   │   ├── not-found.tsx             # 404 page
+│   │   ├── layout.tsx                # Root layout: Navbar, Footer, ToastContainer
+│   │   ├── my-plan/page.tsx          # My Plan page
+│   │   └── workouts/[id]/page.tsx    # Workout details page
 │   │
 │   ├── components/
 │   │   ├── Navbar.tsx                # Logo, nav links, live Plan/Saved badges
