@@ -29,6 +29,7 @@ export default function WorkoutDetails({ workout }: { workout: Workout }) {
 
   const inPlan = planIds.includes(id);
   const inSaved = savedIds.includes(id);
+  const planFull = planIds.length >= PLAN_CAP;
 
   const specs: [string, string | number][] = [
     ["Equipment", equipment],
@@ -42,7 +43,7 @@ export default function WorkoutDetails({ workout }: { workout: Workout }) {
 
   const handleAddToPlan = () => {
     if (inPlan) return toast.info("Already in today's plan");
-    if (planIds.length >= PLAN_CAP) return toast.warn(`Today's plan is full (max ${PLAN_CAP})`);
+    if (planFull) return toast.warn(`Today's plan is full (max ${PLAN_CAP})`);
     setPlanIds([...planIds, id]);
     toast.success("Added to today's plan");
   };
@@ -121,11 +122,11 @@ export default function WorkoutDetails({ workout }: { workout: Workout }) {
             <button
               type="button"
               onClick={handleAddToPlan}
-              disabled={inPlan}
+              disabled={inPlan || planFull}
               className="btn btn-primary h-10 min-h-0 gap-2 rounded-md border-0 px-5 text-xs font-bold uppercase tracking-wide shadow-none disabled:bg-base-300 disabled:text-base-content/40"
             >
               <FiPlusCircle className="size-4" aria-hidden />
-              {inPlan ? "In today's plan" : "Add to today's plan"}
+              {inPlan ? "In today's plan" : planFull ? "Plan is full" : "Add to today's plan"}
             </button>
             <button
               type="button"

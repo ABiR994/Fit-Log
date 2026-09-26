@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { toast } from "react-toastify";
 import Spinner from "@/components/Spinner";
 import EmptyState from "./EmptyState";
 import MetricsSummary from "./MetricsSummary";
@@ -38,10 +39,18 @@ export default function MyPlanView({ workouts }: { workouts: Workout[] }) {
     [list, sortBy],
   );
 
-  const removeFromPlan = (id: number) => setPlanIds(planIds.filter((x) => x !== id));
-  const removeFromSaved = (id: number) => setSavedIds(savedIds.filter((x) => x !== id));
-  const markDone = (id: number) => {
-    if (!doneIds.includes(id)) setDoneIds([...doneIds, id]);
+  const removeFromPlan = (workout: Workout) => {
+    setPlanIds(planIds.filter((x) => x !== workout.id));
+    toast.info(`Removed "${workout.name}" from today's plan`);
+  };
+  const removeFromSaved = (workout: Workout) => {
+    setSavedIds(savedIds.filter((x) => x !== workout.id));
+    toast.info(`Removed "${workout.name}" from saved`);
+  };
+  const markDone = (workout: Workout) => {
+    if (doneIds.includes(workout.id)) return;
+    setDoneIds([...doneIds, workout.id]);
+    toast.success(`"${workout.name}" marked as done`);
   };
 
   return (
@@ -80,8 +89,8 @@ export default function MyPlanView({ workouts }: { workouts: Workout[] }) {
                   key={w.id}
                   workout={w}
                   done={doneIds.includes(w.id)}
-                  onMarkDone={tab === "plan" ? () => markDone(w.id) : undefined}
-                  onRemove={() => (tab === "plan" ? removeFromPlan(w.id) : removeFromSaved(w.id))}
+                  onMarkDone={tab === "plan" ? () => markDone(w) : undefined}
+                  onRemove={() => (tab === "plan" ? removeFromPlan(w) : removeFromSaved(w))}
                 />
               ))}
             </div>
